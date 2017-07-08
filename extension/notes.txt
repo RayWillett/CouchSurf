@@ -3,10 +3,12 @@
  * @param seekTime: the time to seek to in seconds
  */
 function netflixSeekPosition(seekTime) {
+    // $('video').currentTime returns current time but breaks video when you set it
     netflix.cadmium.UiEvents.events.resize[1].scope.events.dragend[1].handler(null, {value: seekTime, pointerEventData: {}});
 }
 
 function netflixTogglePlayState() {
+    // $('video').pause() and $('video').play() are functional, but do not toggle the play-state icon
     $('.player-play-pause').click();
 }
 

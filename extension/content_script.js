@@ -13,15 +13,16 @@ chrome.runtime.onMessage.addListener(
 
 
 document.addEventListener('play', function (e) {
-    console.log('press the play button');
+    console.log('pressed the play button');
   }, false);
 document.addEventListener('pause', function (e) {
-    console.log('press the pause button');
+    console.log('pressed the pause button');
   }, false);
 
 var events = {
-    "play": new Event('play'),
-    "pause": new Event('pause')
+    "play": new Event('netflix_video_play'),
+    "pause": new Event('netflix_video_pause'),
+    "seek": new Event('netflix_video_seek')
 }
 
 function createResponseSuccessMessage() {

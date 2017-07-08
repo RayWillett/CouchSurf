@@ -1,10 +1,10 @@
 const eventButtons = [
   {
-    eventName: "play",
+    eventName: "netflix_video_play",
     buttonID: "play"
   },
   {
-    eventName: "pause",
+    eventName: "netflix_video_pause",
     buttonID: "pause"
   }
 ];
