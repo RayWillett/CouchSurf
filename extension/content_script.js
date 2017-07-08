@@ -1,14 +1,14 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("Message received: ", request);
-    var eventName = request.eventName;
+    console.log("Received request: ", request);
+    let eventName = request.eventName;
     if (events[eventName]) {
-        document.dispatchEvent(events[eventName]);
-        sendResponse({
-            success: true
-        });
+      sendResponse(createResponseSuccessMessage());
+    } else {
+      sendResponse(createResponseFailureMessage());
     }
   });
+
 
 document.addEventListener('play', function (e) {
     console.log('press the play button');
@@ -20,4 +20,16 @@ document.addEventListener('pause', function (e) {
 var events = {
     "play": new Event('play'),
     "pause": new Event('pause')
+}
+
+function createResponseSuccessMessage() {
+  return {
+    success: true
+  };
+}
+
+function createResponseFailureMessage() {
+  return {
+    success: false
+  };
 }
