@@ -1,0 +1,87 @@
+// netflix notes
+/*
+ * @param seekTime: the time to seek to in seconds
+ */
+function netflixSeekPosition(seekTime) {
+    netflix.cadmium.UiEvents.events.resize[1].scope.events.dragend[1].handler(null, {value: seekTime, pointerEventData: {}});
+}
+
+function netflixTogglePlayState() {
+    $('.player-play-pause').click();
+}
+
+function netflixGetVideoPlayingState() {
+    return $('video').paused;
+}
+
+function netflixGetVideoID() {
+    return netflix.cadmium.objects.videoID();
+}
+
+/*
+ * @param name: expects a complete and literal name of the show
+ * @param onloadCallback: the callback that is fired when the request onload event is fired
+ */
+function sendNetflixSearchQueryWithOnload(name, onloadCallback) {
+    let req = new XMLHttpRequest();
+    req.onload = onloadCallback;
+    req.open("GET", "https://www.netflix.com/search?q=" + encodeURI(name));
+    req.send();
+}
+/*
+ * @param name: expects a complete and literal name of the show
+ */
+function findShowByLiteralName(name) {
+    sendNetflixSearchQueryWithOnload(name, function onLoad() {
+            let response = "" + this.response;
+            let videoID = response.match(/video_id%22:([\d]+)/g)[0].split(":")[1]; //Just the first one
+            return videoID;
+        }
+    );
+}
+/*
+ * @param name: expects a partial name or search term for the show
+ */
+function findListOfShowsByPartialName(name) {
+    sendNetflixSearchQueryWithOnload(name, function onLoad() {
+            let response = "" + this.response;
+            let matches = response.match(/<div class="video-preload-title-label" data-reactid="[\d]+">[^<]+/g);
+            if(!matches || !matches.length) {
+                return ["no results found"];
+            }
+            let videoNames = [];
+            for(let name of matches) {
+                videoNames[videoNames.length] = decodeURI(name.split('>')[1]);
+            }
+            return videoNames;
+        }
+    );
+}
+
+// opens the details panel, and 
+function openInformationPanel() {
+    $('.video-preload-title-label').click();
+}
+
+
+// from the search page or when the info panel is open
+function startPlayForVideo() {
+    $('.play').click();
+}
+
+
+
+// helpers
+// not pretty, but until something better is found
+
+@params condition: a function which returns a boolean
+@params callback: the function which will be executed when condition() returns true
+@params step [optional: the time in ms between checks of condition()]
+function deferUntilTrue(condition, callback, step=100) {
+    if (condition()) {
+        console.log('true');
+        callback();
+    } else {
+        console.log(window.setTimeout( () => { deferUntilTrue(condition, callback, step) }, step));
+    }
+} 

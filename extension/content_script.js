@@ -3,8 +3,10 @@ chrome.runtime.onMessage.addListener(
     console.log("Received request: ", request);
     let eventName = request.eventName;
     if (events[eventName]) {
+      document.dispatchEvent(events[eventName]);
       sendResponse(createResponseSuccessMessage());
     } else {
+      alert("That action is not supported");
       sendResponse(createResponseFailureMessage());
     }
   });
