@@ -98,26 +98,3 @@ couchSurf();
 
 
 // content_script has access to DOM, but not the same window object. Gonna have to get clever, here.
-
-
-var triggerEvent = function triggerEvent () {
-    var event = document.createEvent('Event');
-    event.initEvent('scriptInjected', true, true);
-    document.dispatchEvent(event);
- };
- var addEventListener = function addListenerEvent () { 
-   document.addEventListener('scriptInjected', function(e) {
-     let seekTime = 100;
-     alert(netflix);
-     netflix.cadmium.UiEvents.events.resize[1].scope.events.dragend[1].handler(null, {value: seekTime, pointerEventData: {}});
-    }
-  )};
-
- var trigger = document.createElement('script');
- trigger.innerText = triggerEvent.toString() + "\n triggerEvent();";
-
- var listener = document.createElement('script');
- listener.innerText = addEventListener.toString() + "\n addListenerEvent();";
-
- document.head.appendChild(listener);
- document.head.appendChild(trigger);
