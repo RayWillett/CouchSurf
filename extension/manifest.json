@@ -6,14 +6,14 @@
   "version": "0.9",
 
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "about.html",
+    "default_icon": "assets/icon.png",
+    "default_popup": "assets/about.html",
     "default_title": "Couch Surfer"
   },
   "content_scripts": [
     {
       "matches": ["https://www.netflix.com/*"],
-      "js": ["annyang.min.js", "content_script.js"],
+      "js": ["assets/annyang.min.js", "content/content_script.js"],
       "run_at": "document_idle"
     }
   ],
