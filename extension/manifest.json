@@ -3,17 +3,17 @@
 
   "name": "Getting started example",
   "description": "This extension shows a Google Image search result for the current page",
-  "version": "1.0",
+  "version": "0.9",
 
   "browser_action": {
     "default_icon": "icon.png",
-    "default_popup": "popup.html",
-    "default_title": "Click Here!"
+    "default_popup": "about.html",
+    "default_title": "Couch Surfer"
   },
   "content_scripts": [
     {
       "matches": ["https://www.netflix.com/*"],
-      "js": ["content_script.js", "annyang.min.js"],
+      "js": ["annyang.min.js", "content_script.js"],
       "run_at": "document_idle"
     }
   ],

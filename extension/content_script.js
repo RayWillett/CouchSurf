@@ -1,6 +1,45 @@
-function couchSurf() {
-  function seekHandler(seekTime) {
-    netflix.cadmium.UiEvents.events.resize[1].scope.events.dragend[1].handler(null, {value: seekTime, pointerEventData: {}});
+(function couchSurf(DEBUG) {
+  function initDebugging() {
+    if (DEBUG) {
+      assertAnnyangExists();
+      logAnnyangListeningState();
+      initCallbacks();
+    }
+  }
+
+  function logAnnyangListeningState() {
+    window.setTimeout(() => {
+      if (annyang.isListening()) {
+        console.log('Annyang is listening!');
+      } else {
+        console.log('Annyang is _NOT_ listening!');
+      }
+    }, 200);
+  }
+
+  function assertAnnyangExists() {
+    if (typeof annyang !== "undefined") {
+      console.log("Annyang exists");
+    } else {
+      throw(error(createLoggingObject("Annyang does not exist on the page.")));
+    }
+  }
+
+  function initCallbacks() {
+    annyang.addCallback('result', function(results) {
+      console.log(results);
+    });
+  } 
+
+  function timeSeekHandler(seekTime) {
+    let seek = new CustomEvent('netflixSeek', {
+      detail: {
+        seekTime: seekTime
+      },
+      bubbles: true,
+      cancelable: false
+    });
+    document.dispatchEvent(seek);
   }
 
   function convertToSeconds(minutes, seconds) {
@@ -40,15 +79,18 @@ function couchSurf() {
           return;
         } else {
           const seekTime = convertToSeconds(minutes, seconds);
-          seekHandler(seekTime);
+          timeSeekHandler(seekTime);
         }
+      },
+      'go to (the) beginning': function() {
+        timeSeekHandler(0);
       },
       'go back :seconds (seconds)': function(seconds) {
         if (isNaN(seconds)) {
           return;
         } else {
           const seekTime = calculateOffsetSeekTime(-seconds);
-          seekHandler(seekTime);
+          timeSeekHandler(seekTime);
         }
       },
       'go forward :seconds (seconds)': function(seconds) {
@@ -56,45 +98,33 @@ function couchSurf() {
           return;
         } else {
           const seekTime = calculateOffsetSeekTime(seconds);
-          seekHandler(seekTime);
+          timetimeSeekHandler(seekTime);
         }
       }
     }
     annyang.addCommands(commands);
   }
-  
-  function importAnnyang() {
-    let imported_script = document.createElement('script');
-    imported_script.src = "https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js";
-    document.head.appendChild(imported_script);
-    return;
+
+  function initEvents() {
+    appendScriptToDOM();
   }
 
-  function initCallbacks() {
-    annyang.addCallback('result', function(results) {
-      console.log(results);
-    });
-  } 
-
-  function init() {
-    console.log('initializing');
-    //importAnnyang();
-    if (typeof annyang === "undefined") {
-      window.setTimeout(function () {
-        initCommands();
-        initCallbacks();
-        annyang.start();
-      }, 1000);
-    } else {
-      initCommands();
-      initCallbacks();
-      annyang.start();
+  function appendScriptToDOM() {
+    let addEventListener = function() {
+      document.addEventListener('netflixSeek', function netflixInteractionHandler(event) {
+        var seekTime = event.detail.seekTime;
+        netflix.cadmium.UiEvents.events.resize[1].scope.events.dragend[1].handler(null, {value: seekTime, pointerEventData: {}});
+      });
     }
-    console.log('Annyang is listening!');
+    let src = document.createElement('script');
+    src.innerHTML = '(' + addEventListener.toString() + ')();';
+    document.head.appendChild(src);
   }
-  init();
-}
-couchSurf();
 
-
-// content_script has access to DOM, but not the same window object. Gonna have to get clever, here.
+  (function init() {
+    initEvents();
+    initCommands();
+    annyang.start();
+    initDebugging();
+  })();
+})(DEBUG = false);
