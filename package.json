@@ -1,0 +1,22 @@
+{
+  "name": "couchsurf",
+  "version": "0.0.9",
+  "description": "A Chome extension made for controlling Netflix.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayWillett/CouchSurf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayWillett/CouchSurf/issues"
+  },
+  "homepage": "https://github.com/RayWillett/CouchSurf#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
