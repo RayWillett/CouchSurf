@@ -1,19 +1,19 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
-  "version": "0.9",
+  "name": "Couch Surf",
+  "description": "This brings voice control for videos online.",
+  "version": "0.6",
 
   "browser_action": {
     "default_icon": "assets/icon.png",
-    "default_popup": "content/about.html",
+    "default_popup": "src/about.html",
     "default_title": "Couch Surfer"
   },
   "content_scripts": [
     {
-      "matches": ["https://www.netflix.com/*"],
-      "js": ["assets/annyang.min.js", "build/client.js"],
+      "matches": ["https://www.netflix.com/*", "https://www.youtube.com/*"],
+      "js": ["assets/annyang.min.js", "app/client.js"],
       "run_at": "document_idle"
     }
   ],

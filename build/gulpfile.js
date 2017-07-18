@@ -28,5 +28,6 @@ gulp.task('clientjs', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('extension/content/*.js', ['javascript']);
+    gulp.watch('../extension/src/*.js', ['javascript']);
+    gulp.watch('../extension/src/**/*.js', ['javascript'])
 });

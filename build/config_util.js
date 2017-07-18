@@ -1,11 +1,11 @@
 module.exports = {
     'getClientSourceFile': function () {
-        return 'extension/content/client_main.js';
+        return '../extension/src/client_main.js';
     },
     'getClientDestinationFile': function () {
         return 'client.js';
     },
     'getClientDestinationFolder': function () {
-        return 'extension/build';
+        return '../extension/app';
     }
 };
