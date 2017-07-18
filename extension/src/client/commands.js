@@ -1,11 +1,12 @@
 var time = require('./time');
+var video = require('./video');
 
 let commands = {
     'pause video': function () {
-        document.querySelector('video').pause();
+        video.pause();
     },
     'play video': function () {
-        document.querySelector('video').play();
+        video.play();
     },
     'go to :minutes (minutes) and :seconds (seconds)': function (minutes, seconds) {
         if (isNaN(minutes) || isNaN(seconds)) {

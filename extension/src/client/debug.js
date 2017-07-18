@@ -1,3 +1,5 @@
+var logging = require('./customLogging');
+
 function logAnnyangListeningState() {
     window.setTimeout(() => {
         if (annyang.isListening()) {
@@ -12,7 +14,7 @@ function assertAnnyangExists() {
     if (typeof annyang !== "undefined") {
         console.log("Annyang exists");
     } else {
-        throw(error(createLoggingObject("Annyang does not exist on the page.")));
+        throw(error(logging.createMessage("Annyang does not exist on the page.")));
     }
 }
 
